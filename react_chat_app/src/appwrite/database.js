@@ -17,18 +17,31 @@ export class Service{
     async getMessages(){
         
         try {
-            
-
             return  await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 
-                
-                
+              
             )
         } catch (error) {
             console.log("Appwrite serive :: getPosts :: error", error);
             return false
+        }
+    }
+
+
+    async createMessage(payload){
+        try{
+            return await this.databases.createDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                ID.unique(),
+                payload
+
+            )
+        }
+        catch(error){
+
         }
     }
 
