@@ -1,6 +1,5 @@
 import React, { useEffect , useState} from 'react'
 import service from '../appwrite/database'
-import conf from '../config/config';
 import {Trash2} from 'react-feather'
 import { authService } from '../appwrite/auth';
 function Room() {
@@ -39,6 +38,9 @@ function Room() {
       };
      },[]);
 
+
+
+
      const getMessages = async ()=>{
        const res =  await service.getMessages();
        console.log("get messages" , res.documents)
@@ -50,6 +52,10 @@ function Room() {
          service.deleteMessage(message_id);
          //setMessages(prev => messages.filter(message => message.$id !== message_id));
      }
+
+
+
+
      const handleSubmit = async (e) => {
       e.preventDefault();
       let payload = {
@@ -58,10 +64,6 @@ function Room() {
     
       try {
         let res = await service.createMessage(payload);
-        // Update state with the new message
-       // console.log(res)
-      // setMessages(prev => [...prev, res]);
-      // console.log("message at submit ",messages)
         setMessageBody('');
       } catch (error) {
         console.error('Error creating message:', error);
