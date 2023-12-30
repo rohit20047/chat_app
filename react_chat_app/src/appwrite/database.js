@@ -45,6 +45,20 @@ export class Service{
         }
     }
 
+    async deleteMessage(message_id){
+        try{
+            console.log(message_id)
+            return await this.databases.deleteDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                message_id
+            )
+        }
+        catch(error){
+
+        }
+    }
+
 }
 const service = new Service()
 export default service 

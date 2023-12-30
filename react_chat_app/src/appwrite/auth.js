@@ -1,18 +1,22 @@
 import conf from '../config/config';
 import { Client, Account, ID } from "appwrite";
 
-
 export class AuthService {
     client = new Client();
     account;
+    subscription; // Add a property to store the subscription
+    unsubcription
 
     constructor() {
         this.client
             .setEndpoint(conf.appwriteUrl)
             .setProject(conf.appwriteProjectId);
         this.account = new Account(this.client);
-            
+        this.subscription = null; // Initialize the subscription property
+        this.unsubcription = null;
     }
+
+
 
     async createAccount({email, password, name}) {
         try {
@@ -54,8 +58,34 @@ export class AuthService {
             console.log("Appwrite serive :: logout :: error", error);
         }
     }
+
+    just(){
+        console.log("working")
+    }
+
+
+    subscribeToDocuments(callback) {
+    
+
+        // Subscribe to documents
+       return  this.subscription = this.client.subscribe(
+            `databases.${conf.appwriteDatabaseId}.collections.${conf.appwriteCollectionId}.documents`,
+            callback
+        );
+        
+       
+    }
+
+   
+
+
+
+
+
+    // Other methods...
+
 }
 
-const authService = new AuthService();
-
+export const authService = new AuthService();
+export const appwriteClient = authService.client;
 export default authService
