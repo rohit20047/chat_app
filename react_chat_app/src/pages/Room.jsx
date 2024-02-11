@@ -77,7 +77,7 @@ function Room() {
 
      
   return (
-    <div>
+    <div style={{ position: 'relative' }}>
      <h1>ROOM </h1> 
 
     
@@ -90,20 +90,23 @@ function Room() {
 
      }
 
-<form  onSubmit={handleSubmit}>
-      <div>
-        <textarea
-        required 
-        maxLength ="1000"
-        placeholder= "say something..."
-        onChange={(e)=>{setMessageBody(e.target.value)}}
-        value = {messageBody}
-        style={{ border: '1px solid #ccc', padding: '8px' }}
-        ></textarea>
-      </div>
+<form style={{ position: 'sticky', bottom: '0', zIndex: '1', backgroundColor: 'white' }} onSubmit={handleSubmit}>
+  
+<div >
+  <textarea
+    required 
+    maxLength="1000"
+    placeholder="Say something..."
+    onChange={(e) => { setMessageBody(e.target.value) }}
+    value={messageBody}
+    
+  ></textarea>
+  </div>
         <input type="submit" value="Send"/>
+        
      </form>
     </div>
+    
   )
 }
 
