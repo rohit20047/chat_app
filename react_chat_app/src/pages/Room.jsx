@@ -2,17 +2,22 @@ import React, { useEffect , useState} from 'react'
 import service from '../appwrite/database'
 import {Trash2} from 'react-feather'
 import { authService } from '../appwrite/auth';
+import { useSelector } from 'react-redux';
+import LoginPage from './LoginPage';
+import SignupPage from './SignUpPage';
+import { Navigate } from 'react-router-dom';
 function Room() {
     
 
 
   
     
+  const authStatus = useSelector(state => state.auth.status)
 
      let [messages , setMessages] = useState([]);
      let [messageBody , setMessageBody] = useState('');
    
-
+     
      
      useEffect(()=>{
       getMessages()
@@ -70,8 +75,10 @@ function Room() {
       }
     };
     
-
-
+    if(authStatus == false){
+     return <Navigate to = "/signup"/>
+    }
+   
     
 
 
@@ -79,7 +86,7 @@ function Room() {
   return (
     <div style={{ position: 'relative' }}>
      <h1>ROOM </h1> 
-
+     
     
 
      { messages.map((message)=>(<div key = {message.$id}>

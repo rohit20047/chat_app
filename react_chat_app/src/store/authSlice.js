@@ -5,7 +5,7 @@ const initialState = {
     userData: null
 }
 
-const authSlice = createSlice(  // accepts obj
+export const  authSlice = createSlice(  // accepts obj
     {
     name: "auth",
     initialState,
