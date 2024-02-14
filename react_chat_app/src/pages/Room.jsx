@@ -21,14 +21,25 @@ function Room() {
      
      useEffect(()=>{
       getMessages()
+      
       const unsubscribe = authService.subscribeToDocuments(respond => {
         //console.log("ressss", respond);
 
         if(respond.events.includes("databases.*.collections.*.documents.*.create")){
             // console.log("created",respond)
-            console.log("before",messages)// message array empty?
+            if(messages.length < 24){
          setMessages(prevMessages=>[ ...prevMessages , respond.payload])
-         console.log("after" ,messages)
+        //  let el = messages.shift().$id
+        //  console.log("aftereeee" ,el)
+            }
+            else {
+              let g = messages.shift().$id
+              console.log("message deleted ",g)
+               //  service.deleteMessage(messages[0].$id)
+               deleteMessage(g)
+                setMessages(prevMessages=>[ ...prevMessages , respond.payload])
+
+            }
         }
         if(respond.events.includes("databases.*.collections.*.documents.*.delete")){
           console.log("deleted")
