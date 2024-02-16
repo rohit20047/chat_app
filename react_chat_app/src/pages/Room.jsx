@@ -96,7 +96,7 @@ function Room() {
      
   return (
     <div style={{ position: 'relative' }}>
-     <h1>ROOM 123 </h1> 
+     <h1>ROOM  </h1> 
      
     
 
