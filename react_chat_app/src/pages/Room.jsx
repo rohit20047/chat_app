@@ -14,11 +14,21 @@ function Room() {
   
     
   const authStatus = useSelector(state => state.auth.status)
-
      let [messages , setMessages] = useState([]);
      let [messageBody , setMessageBody] = useState('');
    
-     
+     const [userData , setUserData] = useState(null)
+    useEffect(()=>{
+         
+         authService.getCurrentUser()
+    .then((userData)=>{
+        console.log(userData)
+        setUserData(userData)
+      if(userData){
+        const name = userData.name
+      }
+    })
+},[])
      
      useEffect(()=>{
       getMessages()
@@ -28,7 +38,7 @@ function Room() {
 
         if(respond.events.includes("databases.*.collections.*.documents.*.create")){
             // console.log("created",respond)
-            if(messages.length < 24){
+            if(messages.length < 23){
          setMessages(prevMessages=>[ ...prevMessages , respond.payload])
         //  let el = messages.shift().$id
         //  console.log("aftereeee" ,el)
@@ -77,6 +87,7 @@ function Room() {
       e.preventDefault();
       let payload = {
         body: messageBody,
+        user_name: userData.name,
       };
     
       try {
@@ -103,6 +114,7 @@ function Room() {
 
      { messages.map((message)=>(<div key = {message.$id}>
       <p>{new Date(message.$createdAt).toLocaleString()}</p>
+      <p>{message?.user_name ? (message.user_name) : ("Anonymous")}</p>
       {message.body} <Trash2 onClick={()=>(deleteMessage(message.$id))}/>
       <hr/>
      </div>))
