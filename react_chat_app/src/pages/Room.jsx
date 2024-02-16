@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import LoginPage from './LoginPage';
 import SignupPage from './SignUpPage';
 import { Navigate } from 'react-router-dom';
+import { Header } from '../components';
 function Room() {
     
 
@@ -97,7 +98,7 @@ function Room() {
   return (
     <div style={{ position: 'relative' }}>
      <h1>ROOM  </h1> 
-     
+     <Header/>
     
 
      { messages.map((message)=>(<div key = {message.$id}>
