@@ -30,13 +30,14 @@ export class Service{
     }
 
 
-    async createMessage(payload){
+    async createMessage(payload , permissions){
         try{
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 ID.unique(),
-                payload
+                payload,
+                permissions
 
             )
         }

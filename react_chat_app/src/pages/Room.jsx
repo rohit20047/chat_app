@@ -7,6 +7,7 @@ import LoginPage from './LoginPage';
 import SignupPage from './SignUpPage';
 import { Navigate } from 'react-router-dom';
 import { Header } from '../components';
+import {Role , Permission} from 'appwrite'
 function Room() {
     
 
@@ -19,7 +20,7 @@ function Room() {
    
      const [userData , setUserData] = useState(null)
     useEffect(()=>{
-         
+         console.log("mesageeee'",messages)
          authService.getCurrentUser()
     .then((userData)=>{
         console.log(userData)
@@ -89,9 +90,11 @@ function Room() {
         body: messageBody,
         user_name: userData.name,
       };
-    
+      let permission = [
+        Permission.write(Role.user(userData.$id))
+      ]
       try {
-        let res = await service.createMessage(payload);
+        let res = await service.createMessage(payload , permission);
         setMessageBody('');
       } catch (error) {
         console.error('Error creating message:', error);
@@ -115,7 +118,8 @@ function Room() {
      { messages.map((message)=>(<div key = {message.$id}>
       <p>{new Date(message.$createdAt).toLocaleString()}</p>
       <p>{message?.user_name ? (message.user_name) : ("Anonymous")}</p>
-      {message.body} <Trash2 onClick={()=>(deleteMessage(message.$id))}/>
+      {message?.body} 
+      {message?.$permissions.includes(`delete(\"user:${userData.$id}\")`) && (<Trash2 onClick={()=>(deleteMessage(message.$id))}/>)}
       <hr/>
      </div>))
 
