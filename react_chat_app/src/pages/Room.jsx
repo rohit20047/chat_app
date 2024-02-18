@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import LoginPage from './LoginPage';
 import SignupPage from './SignUpPage';
 import { Navigate } from 'react-router-dom';
-import { Header } from '../components';
+import { Header, LogoutBtn } from '../components';
 import {Role , Permission} from 'appwrite'
 function Room() {
     
@@ -113,6 +113,7 @@ function Room() {
   return (
     <div style={{ position: 'relative' }}>
      <h1>ROOM  </h1> 
+     <LogoutBtn/>
      <Header/>
     
 
