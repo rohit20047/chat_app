@@ -9,7 +9,7 @@ export default function Header() {
          
          authService.getCurrentUser()
     .then((userData)=>{
-        console.log(userData)
+       // console.log(userData)
         setUserData(userData)
       if(userData){
         const name = userData.name

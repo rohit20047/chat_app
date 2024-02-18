@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { authService } from './appwrite/auth'
 import { login } from './store/authSlice'
-import {Outlet} from 'react-router-dom'
+import {Navigate, Outlet} from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 import SignupPage from './pages/SignUpPage'
@@ -16,8 +16,10 @@ function App() {
     authService.getCurrentUser()
     .then((userData)=>{
       if(userData){
-        console.log(userData)
+       // console.log("woking when loaded")
+       // console.log(userData)
         dispatch(login({userData}))
+       // return <Navigate to = "/room"/>
       }
       else{
         dispatch(logout())

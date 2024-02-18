@@ -14,19 +14,20 @@ function Room() {
 
   
     
-  const authStatus = useSelector(state => state.auth.status)
+     let authStatus =  true/*useSelector(state => state.auth.status)*/
      let [messages , setMessages] = useState([]);
      let [messageBody , setMessageBody] = useState('');
    
      const [userData , setUserData] = useState(null)
     useEffect(()=>{
-         console.log("mesageeee'",messages)
+      console.log(authStatus)
+         //console.log("mesageeee'",messages)
          authService.getCurrentUser()
     .then((userData)=>{
-        console.log(userData)
+        //console.log(userData)
         setUserData(userData)
       if(userData){
-        const name = userData.name
+       authStatus = true
       }
     })
 },[])
@@ -46,7 +47,7 @@ function Room() {
             }
             else {
               let g = messages.shift().$id
-              console.log("message deleted ",g)
+             // console.log("message deleted ",g)
                //  service.deleteMessage(messages[0].$id)
                deleteMessage(g)
                 setMessages(prevMessages=>[ ...prevMessages , respond.payload])
@@ -54,7 +55,7 @@ function Room() {
             }
         }
         if(respond.events.includes("databases.*.collections.*.documents.*.delete")){
-          console.log("deleted")
+          //console.log("deleted")
           setMessages(prev => messages.filter(message => message.$id !== respond.payload.$id));
           getMessages();
       }
@@ -115,15 +116,17 @@ function Room() {
      <Header/>
     
 
-     { messages.map((message)=>(<div key = {message.$id}>
-      <p>{new Date(message.$createdAt).toLocaleString()}</p>
-      <p>{message?.user_name ? (message.user_name) : ("Anonymous")}</p>
-      {message?.body} 
-      {message?.$permissions.includes(`delete(\"user:${userData.$id}\")`) && (<Trash2 onClick={()=>(deleteMessage(message.$id))}/>)}
-      <hr/>
-     </div>))
-
-     }
+     {messages.map((message) => (
+  <div key={message.$id}>
+    <p>{new Date(message.$createdAt).toLocaleString()}</p>
+    <p>{message?.user_name ? message.user_name : "Anonymous"}</p>
+    {message?.body}
+    {userData && message?.$permissions.includes(`delete(\"user:${userData.$id}\")`) && (
+      <Trash2 onClick={() => deleteMessage(message.$id)} />
+    )}
+    <hr />
+  </div>
+))}
 
 <form style={{ position: 'sticky', bottom: '0', zIndex: '1', backgroundColor: 'white' }} onSubmit={handleSubmit}>
   
