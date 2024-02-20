@@ -117,21 +117,21 @@ function Room() {
 
      
   return (
-    <div style={{ position: 'relative' }}>
-     <h1>ROOM  </h1> 
+    <div className='bg-emerald-400'>
+     <h1 >ROOM  </h1> 
      <LogoutBtn/>
      <Header/>
     
 
      {messages.map((message) => (
-  <div key={message.$id}>
+  <div key={message.$id} className="bg-emerald-700  p-2 flex flex-col items-start" >
     <p>{new Date(message.$createdAt).toLocaleString()}</p>
     <p>{message?.user_name ? message.user_name : "Anonymous"}</p>
-    {message?.body}
+    <div className=' bg-emerald-500 inline-block p-2 mb-2 text-lg rounded-md self-center'>{message?.body}</div>
     {userData && message?.$permissions.includes(`delete(\"user:${userData.$id}\")`) && (
       <Trash2 onClick={() => deleteMessage(message.$id)} />
     )}
-    <hr />
+   
   </div>
 ))}
 
