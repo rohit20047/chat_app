@@ -5,7 +5,7 @@ import { authService } from '../appwrite/auth';
 import { useSelector } from 'react-redux';
 import LoginPage from './LoginPage';
 import SignupPage from './SignUpPage';
-import { Navigate } from 'react-router-dom';
+import { Navigate , useNavigate } from 'react-router-dom';
 import { Header, LogoutBtn } from '../components';
 import {Role , Permission} from 'appwrite'
 function Room() {
@@ -17,10 +17,17 @@ function Room() {
      let authStatus =  true/*useSelector(state => state.auth.status)*/
      let [messages , setMessages] = useState([]);
      let [messageBody , setMessageBody] = useState('');
-   
-     const [userData , setUserData] = useState(null)
+     const [userData , setUserData] = useState(null);
+     const navigate = useNavigate();
     useEffect(()=>{
-      console.log(authStatus)
+      if (localStorage.getItem("auth") === null) {
+       // return <Navigate to = "/signup"/>
+       localStorage.setItem("auth", "yes");
+       navigate('/signup');
+       
+        console.log("GO TO SIGNUP");
+      } 
+       console.log(localStorage.getItem('auth') )
          //console.log("mesageeee'",messages)
          authService.getCurrentUser()
     .then((userData)=>{
@@ -102,9 +109,9 @@ function Room() {
       }
     };
     
-    if(authStatus == false){
-     return <Navigate to = "/signup"/>
-    }
+    // if(authStatus == false){
+    //  return <Navigate to = "/signup"/>
+    // }
    
     
 

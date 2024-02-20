@@ -11,6 +11,7 @@ function LogoutBtn() {
   const logout_ = async () => {
     try {
       await authService.logout();
+      localStorage.clear();
       dispatch(logout());
       navigate('/signup'); // Use the navigate function to redirect
     } catch (error) {
