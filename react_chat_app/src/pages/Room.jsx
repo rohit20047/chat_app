@@ -14,24 +14,23 @@ function Room() {
 
   
     
-     let authStatus =  true/*useSelector(state => state.auth.status)*/
+
      let [messages , setMessages] = useState([]);
      let [messageBody , setMessageBody] = useState('');
      const [userData , setUserData] = useState(null);
      const navigate = useNavigate();
     useEffect(()=>{
       if (localStorage.getItem("auth") === null) {
-       // return <Navigate to = "/signup"/>
+     
        localStorage.setItem("auth", "yes");
        navigate('/signup');
        
         console.log("GO TO SIGNUP");
       } 
-       console.log(localStorage.getItem('auth') )
-         //console.log("mesageeee'",messages)
+      //  console.log(localStorage.getItem('auth') )
+         
          authService.getCurrentUser()
     .then((userData)=>{
-        //console.log(userData)
         setUserData(userData)
       if(userData){
        authStatus = true
