@@ -1,6 +1,7 @@
 import React, { useEffect , useState} from 'react'
 import service from '../appwrite/database'
-import {Trash2} from 'react-feather'
+import {Trash2 , LogOut } from 'react-feather'
+
 import { authService } from '../appwrite/auth';
 import { useSelector } from 'react-redux';
 import LoginPage from './LoginPage';
@@ -117,38 +118,53 @@ function Room() {
 
      
   return (
-    <div className='bg-emerald-400'>
-     <h1 >ROOM  </h1> 
-     <LogoutBtn/>
-     <Header/>
-    
+    <div className='bg-slate-900'>
+     
+  <div class=" bg-slate-900 sticky top-0 flex items-center justify-between px-10 py-2">
+    <Header />
+    <LogoutBtn /> 
+</div>
 
-     {messages.map((message) => (
-  <div key={message.$id} className="bg-emerald-700  p-2 flex flex-col items-start" >
-    <p>{new Date(message.$createdAt).toLocaleString()}</p>
-    <p>{message?.user_name ? message.user_name : "Anonymous"}</p>
-    <div className=' bg-emerald-500 inline-block p-2 mb-2 text-lg rounded-md self-center'>{message?.body}</div>
-    {userData && message?.$permissions.includes(`delete(\"user:${userData.$id}\")`) && (
-      <Trash2 onClick={() => deleteMessage(message.$id)} />
-    )}
-   
-  </div>
+<div className='bg-slate-900 '>
+     {messages.map((message) => (< >
+      
+ <div key={message.$id} className=" p-2 flex flex-col items-start  pb-10">
+  <div class="flex items-center justify-start w-full space-x-9">
+<p  className='text-yellow-300'>
+  {new Date(message.$createdAt).toLocaleString()} 
+</p>
+<span class="font-bold text-yellow-500">{message?.user_name ? message.user_name : "Anonymous"}</span>
+{userData && message?.$permissions.includes(`delete(\"user:${userData.$id}\")`) && (
+   <Trash2 className="cursor-pointer text-yellow-500" onClick={() => deleteMessage(message.$id)} />
+ )}
+</div>
+
+
+ <div className='bg-emerald-500 inline-block px-4 mb-1 text-lg rounded-md self-center'>{message?.body}</div>
+
+</div>
+
+</>
+
 ))}
+</div>
 
-<form style={{ position: 'sticky', bottom: '0', zIndex: '1', backgroundColor: 'white' }} onSubmit={handleSubmit}>
+<form  className=' sticky bottom-0' onSubmit={handleSubmit}>
   
-<div >
+<div className="flex flex-row items-center" >
   <textarea
     required 
     maxLength="1000"
     placeholder="Say something..."
     onChange={(e) => { setMessageBody(e.target.value) }}
     value={messageBody}
+    className=' bg-slate-800 size-20 p-2 w-full rounded-md'
     
   ></textarea>
-  </div>
-        <input type="submit" value="Send"/>
-        
+  
+  
+        <input type="submit" className='text-yellow-500 p-2 size-20 cursor-pointer bg-slate-800' value="Send"/>
+        </div>
      </form>
     </div>
     

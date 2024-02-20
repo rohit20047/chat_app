@@ -1,6 +1,7 @@
 import React, { useEffect , useState } from 'react'
 import { useSelector } from 'react-redux'
 import { authService } from '../appwrite/auth';
+import { Moon } from 'react-feather';
 
 
 export default function Header() {
@@ -21,12 +22,16 @@ export default function Header() {
   return (
     
     <div>
-    {userData && (
-      <p>
-        Welcome, {userData.name}
+    {userData && (<div className="flex flex-row items-center ">
+      <Moon  className="text-yellow-400 size-10"/>
+      <p className=" font-bold text-yellow-400 px-2">
+       What's up  
       </p>
+      <p className="text-4xl text-yellow-400 size-10" > {` ${userData.name}`}</p>
+     
+    </div>
     )}
-    {!userData && <p>You are not logged in.</p>}
+    {!userData && <p>plz press logout button</p>}
   </div>
   )
 }

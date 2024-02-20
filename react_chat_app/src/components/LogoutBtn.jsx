@@ -3,7 +3,7 @@ import authService from '../appwrite/auth';
 import { useDispatch } from 'react-redux';
 import { logout } from '../store/authSlice';
 import { useNavigate } from 'react-router-dom';
-
+import { LogOut } from 'react-feather'
 function LogoutBtn() {
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Use the useNavigate hook
@@ -21,7 +21,7 @@ function LogoutBtn() {
 
   return (
     <div>
-      <button onClick={logout_}>Logout</button>
+      <LogOut className=' text-yellow-500 cursor-pointer' onClick={logout_}>Logout</LogOut>
     </div>
   );
 }
