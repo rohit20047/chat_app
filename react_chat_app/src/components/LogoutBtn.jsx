@@ -21,7 +21,7 @@ function LogoutBtn() {
 
   return (
     <div>
-      <LogOut className=' text-yellow-500 cursor-pointer' onClick={logout_}>Logout</LogOut>
+      <LogOut className=' text-yellow-500 cursor-pointer rounded-md  hover:bg-slate-800' onClick={logout_}>Logout</LogOut>
     </div>
   );
 }

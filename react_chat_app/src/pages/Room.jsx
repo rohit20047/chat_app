@@ -129,7 +129,7 @@ function Room() {
                     `delete(\"user:${userData.$id}\")`
                   ) && (
                     <Trash2
-                      className="cursor-pointer text-yellow-500"
+                      className="cursor-pointer   text-yellow-500 rounded-md  hover:bg-slate-800"
                       onClick={() => deleteMessage(message.$id)}
                     />
                   )}
@@ -158,7 +158,7 @@ function Room() {
 
           <Send
             onClick={handleSubmit}
-            className="text-yellow-500 p-2 size-10 m-2 cursor-pointer bg-slate-800"
+           className="text-yellow-500 p-2 size-10 m-2 cursor-pointer rounded-md bg-slate-800 hover:bg-slate-700"
           />
         </div>
       </form>
