@@ -64,7 +64,7 @@ function Login() {
                 <Input
                 label="Password: "
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Enter your password(8 charectors)"
                 {...register("password", {
                     required: true,
                 })}
