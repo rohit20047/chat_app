@@ -27,7 +27,7 @@ function Room() {
       
     });
     
-    bgDelete()
+    
    
   }, []);
 
@@ -66,13 +66,13 @@ function Room() {
       }
      //
     });
-
+    bgDelete()
     return () => {
       // Unsubscribe when the component is about to unmount
       unsubscribe();
     };
 
-   
+    
   }, [messages.length]);
 
   // useEffect(() => {
@@ -121,6 +121,10 @@ function Room() {
     }
   };
 
+  const keyHandle = ()=>{
+    handleSubmit();
+  }
+
   // if(authStatus == false){
   //  return <Navigate to = "/signup"/>
   // }
@@ -165,18 +169,17 @@ function Room() {
         ))}
       </div>
 
-      <form className=" sticky bottom-0" onSubmit={handleSubmit}>
+      <form className=" sticky bottom-0" onSubmit={handleSubmit} >
         <div className="flex flex-row items-center">
-          <textarea
-            required
-            maxLength="1000"
-            placeholder="Say something..."
-            onChange={(e) => {
-              setMessageBody(e.target.value);
-            }}
-            value={messageBody}
-            className=" bg-slate-800  p-2 w-full rounded-md text-yellow-500"
-          ></textarea>
+          
+          <input type = "text"  value={messageBody}
+           onChange={(e) =>{
+            setMessageBody(e.target.value);
+          }}  
+          onKeyDown={keyHandle} 
+          placeholder="SaySomething"
+          className=" bg-slate-800  p-4 w-full rounded-md text-yellow-500">
+          </input>
 
           <Send
             onClick={handleSubmit}
