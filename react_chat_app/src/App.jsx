@@ -4,13 +4,13 @@ import { authService } from './appwrite/auth'
 import { login } from './store/authSlice'
 import {Navigate, Outlet} from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect  } from 'react'
 import SignupPage from './pages/SignUpPage'
 function App() {
 
   const [loading , setLoading] = useState(true);
   const dispatch = useDispatch
-
+  
 
   useEffect(()=>{
     authService.getCurrentUser()
@@ -30,9 +30,9 @@ function App() {
 
   return !loading ?  (
      
- <Outlet/>
-    ) : null
-
+ <Outlet />
+  ) : null
+ 
 }
 
 export default App

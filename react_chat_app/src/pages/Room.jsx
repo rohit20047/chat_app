@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useRef  } from "react";
 import service from "../appwrite/database";
 import { Trash2, LogOut, Send } from "react-feather";
 
@@ -14,6 +14,7 @@ function Room() {
   let [messages, setMessages] = useState([]);
   let [messageBody, setMessageBody] = useState("");
   const [userData, setUserData] = useState(null);
+  const scrollAble = useRef(null);
   const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("auth") === null) {
@@ -33,6 +34,7 @@ function Room() {
 
   useEffect(() => {
     getMessages();
+   
     const unsubscribe = authService.subscribeToDocuments((respond) => {
       //console.log("ressss", respond);
 
@@ -64,9 +66,10 @@ function Room() {
         );
        
       }
-     //
+     
     });
     bgDelete()
+    
     return () => {
       // Unsubscribe when the component is about to unmount
       unsubscribe();
@@ -75,9 +78,7 @@ function Room() {
     
   }, [messages.length]);
 
-  // useEffect(() => {
-  //   getMessages();
-  // }, [messages.length]);
+ 
   
 
   const getMessages = async () => {
@@ -96,16 +97,17 @@ function Room() {
     }
 
     
-    //console.log(res.documents)
+   
   };
   const deleteMessage = async (message_id) => {
     console.log(message_id);
      await service.deleteMessage(message_id);
-    //setMessages(prev => messages.filter(message => message.$id !== message_id));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(scrollAble.current)
+    scrollAble.current.scrollTo(0, scrollAble.current.scrollHeight);
     if (messageBody.length != 0) {
       let payload = {
         body: messageBody,
@@ -118,6 +120,7 @@ function Room() {
       } catch (error) {
         console.error("Error creating message:", error);
       }
+     
     }
   };
 
@@ -125,23 +128,25 @@ function Room() {
     handleSubmit();
   }
 
-  // if(authStatus == false){
-  //  return <Navigate to = "/signup"/>
-  // }
+  
 
   return (
-    <div className=" bg-slate-900">
+    
+    <div className=" bg-slate-900  "  >
       <div className=" bg-slate-900 sticky top-0 flex items-center justify-between px-10 py-2">
         <Header />
         <LogoutBtn />
       </div>
 
-      <div className="bg-slate-900 ">
+        <div className="overflow-auto" ref ={scrollAble}>
+      <div className="bg-slate-900  "  >
+       
         {messages.map((message) => (
           <>
             <div
               key={message.$id}
               className=" p-2 flex flex-col items-start  pb-10"
+           
             >
               <div class="flex items-center justify-start w-full space-x-9">
                 <p className="text-yellow-300">
@@ -167,6 +172,9 @@ function Room() {
             </div>
           </>
         ))}
+       
+    
+      </div>
       </div>
 
       <form className=" sticky bottom-0" onSubmit={handleSubmit} >
@@ -188,6 +196,7 @@ function Room() {
         </div>
       </form>
     </div>
+   
   );
 }
 
