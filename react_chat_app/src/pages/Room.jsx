@@ -9,6 +9,7 @@ import SignupPage from "./SignUpPage";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Header, LogoutBtn } from "../components";
 import { Role, Permission } from "appwrite";
+import bgDelete from "../appwrite/backgroundDelete";
 function Room() {
   let [messages, setMessages] = useState([]);
   let [messageBody, setMessageBody] = useState("");
@@ -21,19 +22,17 @@ function Room() {
 
       console.log("GO TO SIGNUP");
     }
-    //  console.log(localStorage.getItem('auth') )
-
     authService.getCurrentUser().then((userData) => {
       setUserData(userData);
-      if (userData) {
-        authStatus = true;
-      }
+      
     });
+    
+    bgDelete()
+   
   }, []);
 
   useEffect(() => {
     getMessages();
-
     const unsubscribe = authService.subscribeToDocuments((respond) => {
       //console.log("ressss", respond);
 
@@ -41,16 +40,19 @@ function Room() {
         respond.events.includes("databases.*.collections.*.documents.*.create")
       ) {
         // console.log("created",respond)
-        if (messages.length < 23) {
+        if (messages.length < 203) {
           setMessages((prevMessages) => [...prevMessages, respond.payload]);
           //  let el = messages.shift().$id
           //  console.log("aftereeee" ,el)
+          console.log("aftereeee", messages.length);
         } else {
           let g = messages.shift().$id;
-          // console.log("message deleted ",g)
-          //  service.deleteMessage(messages[0].$id)
+          
           deleteMessage(g);
+          console.log("deleted", messages.length);
           setMessages((prevMessages) => [...prevMessages, respond.payload]);
+          
+          //setMessages((prevMessages) => [...prevMessages, respond.payload]);
         }
       }
       if (
@@ -60,25 +62,45 @@ function Room() {
         setMessages((prev) =>
           messages.filter((message) => message.$id !== respond.payload.$id)
         );
-        getMessages();
+       
       }
+     //
     });
 
     return () => {
       // Unsubscribe when the component is about to unmount
       unsubscribe();
     };
-  }, []);
+
+   
+  }, [messages.length]);
+
+  // useEffect(() => {
+  //   getMessages();
+  // }, [messages.length]);
+  
 
   const getMessages = async () => {
-    const res = await service.getMessages();
+   const res = await service.getMessages();
     console.log("get messages", res.documents);
-    setMessages(res.documents);
+    if(res.documents.length > 25){
+      let l = res.documents.length - 25;
+      let arr = res.documents.slice(l);
+    setMessages(arr);
+    console.log(arr.length);
+
+    }
+
+    else {
+      setMessages(res.documents)
+    }
+
+    
     //console.log(res.documents)
   };
   const deleteMessage = async (message_id) => {
     console.log(message_id);
-    service.deleteMessage(message_id);
+     await service.deleteMessage(message_id);
     //setMessages(prev => messages.filter(message => message.$id !== message_id));
   };
 
@@ -165,5 +187,6 @@ function Room() {
     </div>
   );
 }
+
 
 export default Room;

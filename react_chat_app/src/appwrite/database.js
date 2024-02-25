@@ -20,6 +20,7 @@ export class Service{
             return  await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
+                [Query.limit(50)]
                 
               
             )
@@ -52,7 +53,9 @@ export class Service{
             return await this.databases.deleteDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
-                message_id
+
+                message_id,
+                console.log("deleted")
             )
         }
         catch(error){
