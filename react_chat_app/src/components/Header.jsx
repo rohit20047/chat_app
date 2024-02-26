@@ -24,10 +24,10 @@ export default function Header() {
     <div>
     {userData && (<div className="flex flex-row items-center ">
       <Moon  className="text-yellow-400 size-10"/>
-      <p className=" font-bold text-yellow-400 px-2">
+      <p className=" font-bold text-yellow-400 px-2" style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 700}}>
        What's up  
       </p>
-      <p className="text-4xl text-yellow-400 size-10" > {` ${userData.name}`}</p>
+      <p className="text-4xl text-yellow-400 size-10" style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 700}} > {` ${userData.name}`}</p>
      
     </div>
     )}

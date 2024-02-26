@@ -6,6 +6,7 @@ import {Button, Input, Logo} from './index.js'
 import {useDispatch} from 'react-redux'
 import {useForm} from 'react-hook-form'
 
+
 function Signup() {
     const navigate = useNavigate()
     const [error, setError] = useState("")
@@ -30,15 +31,11 @@ function Signup() {
     }
 
   return (
-    <div className="flex items-center justify-center">
-            <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
-            <div className="mb-2 flex justify-center">
-                    <span className="inline-block w-full max-w-[100px]">
-                        <Logo width="100%" />
-                    </span>
-                </div>
-                <h2 className="text-center text-2xl font-bold leading-tight">Sign up to create account</h2>
-                <p className="mt-2 text-center text-base text-black/60">
+    <div className="flex items-center justify-center bg-slate-900">
+            <div className={`mx-auto w-full max-w-lg bg-slate-800 rounded-xl p-10 border border-black/10`}>
+          
+                <h2 className="text-center text-2xl font-bold text-yellow-500 leading-tight"  style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 700}}>Sign up to create account</h2>
+                <p className="mt-2 text-center text-base text-yellow-300/60"  style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 700}}>
                     Already have  an account?&nbsp;
                     <Link
                         to="/login"
@@ -47,16 +44,18 @@ function Signup() {
                         Sign In
                     </Link>
                 </p>
-                {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+                {error && <p className="text-yellow-600 mt-8 text-center">{error}</p>}
 
                 <form onSubmit={handleSubmit(create)}>
-                    <div className='space-y-5'>
+                    <div className='space-y-5 text-white'  style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 700}}>
                         <Input
-                        label="Full Name: "
-                        placeholder="Enter your full name"
+                         className="bg-slate-600 border-transparent"
+                        label="User Name: "
+                        placeholder="Enter your  name"
                         {...register("name", {
                             required: true,
                         })}
+                       
                         />
                         <Input
                         label="Email: "
@@ -69,15 +68,17 @@ function Signup() {
                                     "Email address must be a valid address",
                             }
                         })}
+                        className="bg-slate-600 border-transparent"
                         />
                         <Input
-                        label="Password: "
+                        label="create new Password: "
                         type="password"
                         placeholder="Enter your password (8 charectors)"
                         {...register("password", {
                             required: true,})}
+                            className="bg-slate-600 border-transparent"
                         />
-                        <Button type="submit" className="w-full">
+                        <Button type="submit" className="w-full text-yellow-500 bg-slate-900 ">
                             Create Account
                         </Button>
                     </div>

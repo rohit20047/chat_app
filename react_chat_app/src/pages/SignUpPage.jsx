@@ -4,7 +4,7 @@ import { Signup as SignupComponent } from '../components'
 
 function SignupPage() {
   return (
-    <div className='py-8'>
+    <div className='py-8 bg-slate-900'>
         <SignupComponent />
     </div>
   )

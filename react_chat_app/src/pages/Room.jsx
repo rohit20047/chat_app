@@ -149,10 +149,10 @@ function Room() {
            
             >
               <div class="flex items-center justify-start w-full space-x-9">
-                <p className="text-yellow-300">
-                  {new Date(message.$createdAt).toLocaleString()} 
+                <p className="text-yellow-300" style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 400 }}>
+                  {new Date(message.$createdAt).toLocaleString()} 
                 </p>
-                <span class="font-bold text-yellow-500">
+                <span className="font-bold text-yellow-500"  style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 700}}>
                   {message?.user_name ? message.user_name : "Anonymous"}
                 </span>
                 {userData &&
@@ -166,7 +166,7 @@ function Room() {
                   )}
               </div>
 
-              <div className="bg-emerald-500 inline-block px-4 mb-1 text-lg rounded-md self-center">
+              <div className="bg-slate-800 inline-block px-4 mb-1 text-lg rounded-md self-center text-white" style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 200}}>
                 {message?.body}
               </div>
             </div>
@@ -185,13 +185,15 @@ function Room() {
             setMessageBody(e.target.value);
           }}  
           onKeyDown={keyHandle} 
-          placeholder="SaySomething"
-          className=" bg-slate-800  p-4 w-full rounded-md text-yellow-500">
+          style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 700}}
+          placeholder="Here....!!"
+          className=" bg-slate-800  p-4 w-full rounded-md text-white">
           </input>
 
           <Send
             onClick={handleSubmit}
            className="text-yellow-500 p-2 size-10 m-2 cursor-pointer rounded-md bg-slate-800 hover:bg-slate-700"
+           
           />
         </div>
       </form>

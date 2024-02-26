@@ -30,25 +30,22 @@ function Login() {
     <div
     className='flex items-center justify-center w-full'
     >
-        <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
-        <div className="mb-2 flex justify-center">
-                    <span className="inline-block w-full max-w-[100px]">
-                        <Logo width="100%" />
-                    </span>
-        </div>
-        <h2 className="text-center text-2xl font-bold leading-tight">Sign in to your account</h2>
-        <p className="mt-2 text-center text-base text-black/60">
+        <div className={`mx-auto w-full max-w-lg rounded-xl p-10 border bg-slate-800 border-black/10`} style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 700}}>
+        
+        <h2 className="text-center text-2xl font-bold leading-tight text-yellow-500" style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 700}}>Sign in to your account</h2>
+        <p className="mt-2 text-center text-base text-yellow-300/60" style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 700}}>
                     Don&apos;t have any account?&nbsp;
                     <Link
                         to="/signup"
                         className="font-medium text-primary transition-all duration-200 hover:underline"
+                        style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 700}}
                     >
                         Sign Up
                     </Link>
         </p>
-        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+        {error && <p className="text-yellow-600 mt-8 text-center">{error}</p>}
         <form onSubmit={handleSubmit(login)} className='mt-8'>
-            <div className='space-y-5'>
+            <div className='space-y-5 text-white 'style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 700}} >
                 <Input
                 label="Email: "
                 placeholder="Enter your email"
@@ -60,6 +57,7 @@ function Login() {
                         "Email address must be a valid address",
                     }
                 })}
+                className="bg-slate-600 border-transparent"
                 />
                 <Input
                 label="Password: "
@@ -68,10 +66,11 @@ function Login() {
                 {...register("password", {
                     required: true,
                 })}
+                className="bg-slate-600 border-transparent"
                 />
                 <Button
                 type="submit"
-                className="w-full"
+                className="w-full text-yellow-500 bg-slate-900 "
                 >Sign in</Button>
             </div>
         </form>
