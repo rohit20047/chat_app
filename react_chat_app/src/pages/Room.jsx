@@ -27,7 +27,9 @@ function Room() {
       setUserData(userData);
       
     });
-    
+    setTimeout(() => {
+      scrollAble.current?.scrollTo(0, scrollAble.current.scrollHeight);
+    }, 50);
     
    
   }, []);
@@ -69,7 +71,9 @@ function Room() {
      
     });
     bgDelete()
-    
+    setTimeout(() => {
+      scrollAble.current?.scrollTo(0, scrollAble.current.scrollHeight);
+    }, 50);
     return () => {
       // Unsubscribe when the component is about to unmount
       unsubscribe();
@@ -107,7 +111,9 @@ function Room() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(scrollAble.current)
-    scrollAble.current.scrollTo(0, scrollAble.current.scrollHeight);
+    setTimeout(() => {
+      scrollAble.current?.scrollTo(0, scrollAble.current.scrollHeight);
+    }, 50);
     if (messageBody.length != 0) {
       let payload = {
         body: messageBody,
