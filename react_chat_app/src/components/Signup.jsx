@@ -16,12 +16,13 @@ function Signup() {
     const create = async(data) => {
         setError("")
         try {
-            localStorage.setItem("auth", "yes");
+            
             const userData = await authService.createAccount(data);
             console.log('working');
             if (userData) {
                 
-                const userData = await authService.getCurrentUser()
+                const userData = await authService.getCurrentUser();
+                localStorage.setItem("auth", "yes");
                 if(userData) dispatch(login(userData));
                 navigate("/")
             }

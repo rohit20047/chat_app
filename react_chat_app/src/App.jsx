@@ -9,17 +9,16 @@ import SignupPage from './pages/SignUpPage'
 function App() {
 
   const [loading , setLoading] = useState(true);
-  const dispatch = useDispatch
+  const dispatch = useDispatch()
   
-
+   
   useEffect(()=>{
     authService.getCurrentUser()
     .then((userData)=>{
       if(userData){
-       // console.log("woking when loaded")
-       // console.log(userData)
+       
         dispatch(login({userData}))
-       // return <Navigate to = "/room"/>
+       
       }
       else{
         dispatch(logout())

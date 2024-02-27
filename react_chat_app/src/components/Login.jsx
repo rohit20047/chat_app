@@ -11,17 +11,20 @@ function Login() {
     const dispatch = useDispatch()
     const {register, handleSubmit} = useForm()
     const [error, setError] = useState("")
-
+    console.log("in login page",localStorage.getItem("auth"))
     const login = async(data) => {
         setError("")
         try {
             const session = await authService.login(data)
             if (session) {
+                localStorage.setItem("auth" , "yes");
+                console.log("after login page",localStorage.getItem("auth"))
                 const userData = await authService.getCurrentUser()
                 if(userData) dispatch(authLogin(userData));
                 navigate("/")
             }
         } catch (error) {
+            console.log("erroorororo")
             setError(error.message)
         }
     }

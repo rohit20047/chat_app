@@ -1,4 +1,4 @@
-import React, { useEffect, useState , useRef  } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import service from "../appwrite/database";
 import { Trash2, LogOut, Send } from "react-feather";
 
@@ -18,25 +18,22 @@ function Room() {
   const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("auth") === null) {
-      localStorage.setItem("auth", "yes");
+      localStorage.clear();
       navigate("/signup");
 
       console.log("GO TO SIGNUP");
     }
     authService.getCurrentUser().then((userData) => {
       setUserData(userData);
-      
     });
     setTimeout(() => {
       scrollAble.current?.scrollTo(0, scrollAble.current.scrollHeight);
     }, 50);
-    
-   
   }, []);
 
   useEffect(() => {
     getMessages();
-   
+
     const unsubscribe = authService.subscribeToDocuments((respond) => {
       //console.log("ressss", respond);
 
@@ -51,11 +48,11 @@ function Room() {
           console.log("aftereeee", messages.length);
         } else {
           let g = messages.shift().$id;
-          
+
           deleteMessage(g);
           console.log("deleted", messages.length);
           setMessages((prevMessages) => [...prevMessages, respond.payload]);
-          
+
           //setMessages((prevMessages) => [...prevMessages, respond.payload]);
         }
       }
@@ -66,11 +63,9 @@ function Room() {
         setMessages((prev) =>
           messages.filter((message) => message.$id !== respond.payload.$id)
         );
-       
       }
-     
     });
-    bgDelete()
+    bgDelete();
     setTimeout(() => {
       scrollAble.current?.scrollTo(0, scrollAble.current.scrollHeight);
     }, 50);
@@ -78,39 +73,28 @@ function Room() {
       // Unsubscribe when the component is about to unmount
       unsubscribe();
     };
-
-    
   }, [messages.length]);
 
- 
-  
-
   const getMessages = async () => {
-   const res = await service.getMessages();
+    const res = await service.getMessages();
     console.log("get messages", res.documents);
-    if(res.documents.length > 25){
+    if (res.documents.length > 25) {
       let l = res.documents.length - 25;
       let arr = res.documents.slice(l);
-    setMessages(arr);
-    console.log(arr.length);
-
+      setMessages(arr);
+      console.log(arr.length);
+    } else {
+      setMessages(res.documents);
     }
-
-    else {
-      setMessages(res.documents)
-    }
-
-    
-   
   };
   const deleteMessage = async (message_id) => {
     console.log(message_id);
-     await service.deleteMessage(message_id);
+    await service.deleteMessage(message_id);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(scrollAble.current)
+    console.log(scrollAble.current);
     setTimeout(() => {
       scrollAble.current?.scrollTo(0, scrollAble.current.scrollHeight);
     }, 50);
@@ -126,87 +110,96 @@ function Room() {
       } catch (error) {
         console.error("Error creating message:", error);
       }
-     
     }
   };
 
-  const keyHandle = ()=>{
+  const keyHandle = () => {
     handleSubmit();
-  }
-
-  
+  };
 
   return (
-    
-    <div className=" bg-slate-900  "  >
+    <div className=" bg-slate-900  ">
       <div className=" bg-slate-900 sticky top-0 flex items-center justify-between px-10 py-2">
         <Header />
         <LogoutBtn />
       </div>
 
-        <div className="overflow-auto" ref ={scrollAble}>
-      <div className="bg-slate-900  "  >
-       
-        {messages.map((message) => (
-          <>
-            <div
-              key={message.$id}
-              className=" p-2 flex flex-col items-start  pb-10"
-           
-            >
-              <div class="flex items-center justify-start w-full space-x-9">
-                <p className="text-yellow-300" style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 400 }}>
-                  {new Date(message.$createdAt).toLocaleString()} 
-                </p>
-                <span className="font-bold text-yellow-500"  style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 700}}>
-                  {message?.user_name ? message.user_name : "Anonymous"}
-                </span>
-                {userData &&
-                  message?.$permissions.includes(
-                    `delete(\"user:${userData.$id}\")`
-                  ) && (
-                    <Trash2
-                      className="cursor-pointer   text-yellow-500 rounded-md  hover:bg-slate-800"
-                      onClick={() => deleteMessage(message.$id)}
-                    />
-                  )}
-              </div>
+      <div className="overflow-auto" ref={scrollAble}>
+        <div className="bg-slate-900  ">
+          {messages.map((message) => (
+            <div >
+              <div
+                key={message.$id}
+                className=" p-2 flex flex-col items-start  pb-10"
+              >
+                <div class="flex items-center justify-start w-full space-x-9">
+                  <p
+                    className="text-yellow-300"
+                    style={{
+                      fontFamily: "Kode Mono, monospace",
+                      fontWeight: 400,
+                    }}
+                  >
+                    {new Date(message.$createdAt).toLocaleString()}
+                  </p>
+                  <span
+                    className="font-bold text-yellow-500"
+                    style={{
+                      fontFamily: "Kode Mono, monospace",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {message?.user_name ? message.user_name : "Anonymous"}
+                  </span>
+                  {userData &&
+                    message?.$permissions.includes(
+                      `delete(\"user:${userData.$id}\")`
+                    ) && (
+                      <Trash2
+                        className="cursor-pointer   text-yellow-500 rounded-md  hover:bg-slate-800"
+                        onClick={() => deleteMessage(message.$id)}
+                        key={message.$id}
+                      />
+                    )}
+                </div>
 
-              <div className="bg-slate-800 inline-block px-4 mb-1 text-lg rounded-md self-center text-white" style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 200}}>
-                {message?.body}
+                <div
+                  className="bg-slate-800 inline-block px-4 mb-1 text-lg rounded-md self-center text-white"
+                  style={{
+                    fontFamily: "Kode Mono, monospace",
+                    fontWeight: 200,
+                  }}
+                >
+                  {message?.body}
+                </div>
               </div>
             </div>
-          </>
-        ))}
-       
-    
-      </div>
+          ))}
+        </div>
       </div>
 
-      <form className=" sticky bottom-0" onSubmit={handleSubmit} >
+      <form className=" sticky bottom-0" onSubmit={handleSubmit}>
         <div className="flex flex-row items-center">
-          
-          <input type = "text"  value={messageBody}
-           onChange={(e) =>{
-            setMessageBody(e.target.value);
-          }}  
-          onKeyDown={keyHandle} 
-          style={{ fontFamily: "Kode Mono, monospace" , fontWeight: 700}}
-          placeholder="Here....!!"
-          className=" bg-slate-800  p-4 w-full rounded-md text-white">
-          </input>
+          <input
+            type="text"
+            value={messageBody}
+            onChange={(e) => {
+              setMessageBody(e.target.value);
+            }}
+            onKeyDown={keyHandle}
+            style={{ fontFamily: "Kode Mono, monospace", fontWeight: 700 }}
+            placeholder="Here....!!"
+            className=" bg-slate-800  p-4 w-full rounded-md text-white"
+          ></input>
 
           <Send
             onClick={handleSubmit}
-           className="text-yellow-500 p-2 size-10 m-2 cursor-pointer rounded-md bg-slate-800 hover:bg-slate-700"
-           
+            className="text-yellow-500 p-2 size-10 m-2 cursor-pointer rounded-md bg-slate-800 hover:bg-slate-700"
           />
         </div>
       </form>
     </div>
-   
   );
 }
-
 
 export default Room;
