@@ -21,7 +21,7 @@ function Room() {
       localStorage.clear();
       navigate("/signup");
 
-      console.log("GO TO SIGNUP");
+    
     }
     authService.getCurrentUser().then((userData) => {
       setUserData(userData);
@@ -35,22 +35,21 @@ function Room() {
     getMessages();
 
     const unsubscribe = authService.subscribeToDocuments((respond) => {
-      //console.log("ressss", respond);
+     
 
       if (
         respond.events.includes("databases.*.collections.*.documents.*.create")
       ) {
-        // console.log("created",respond)
+     
         if (messages.length < 203) {
           setMessages((prevMessages) => [...prevMessages, respond.payload]);
-          //  let el = messages.shift().$id
-          //  console.log("aftereeee" ,el)
-          console.log("aftereeee", messages.length);
+       
+      
         } else {
           let g = messages.shift().$id;
 
           deleteMessage(g);
-          console.log("deleted", messages.length);
+         
           setMessages((prevMessages) => [...prevMessages, respond.payload]);
 
           //setMessages((prevMessages) => [...prevMessages, respond.payload]);
@@ -59,7 +58,7 @@ function Room() {
       if (
         respond.events.includes("databases.*.collections.*.documents.*.delete")
       ) {
-        //console.log("deleted")
+    
         setMessages((prev) =>
           messages.filter((message) => message.$id !== respond.payload.$id)
         );
@@ -77,24 +76,24 @@ function Room() {
 
   const getMessages = async () => {
     const res = await service.getMessages();
-    console.log("get messages", res.documents);
+
     if (res.documents.length > 25) {
       let l = res.documents.length - 25;
       let arr = res.documents.slice(l);
       setMessages(arr);
-      console.log(arr.length);
+   
     } else {
       setMessages(res.documents);
     }
   };
   const deleteMessage = async (message_id) => {
-    console.log(message_id);
+  
     await service.deleteMessage(message_id);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(scrollAble.current);
+  
     setTimeout(() => {
       scrollAble.current?.scrollTo(0, scrollAble.current.scrollHeight);
     }, 50);
@@ -108,7 +107,7 @@ function Room() {
         let res = await service.createMessage(payload, permission);
         setMessageBody("");
       } catch (error) {
-        console.error("Error creating message:", error);
+     
       }
     }
   };
@@ -132,7 +131,7 @@ function Room() {
                 key={message.$id}
                 className=" p-2 flex flex-col items-start  pb-10"
               >
-                <div class="flex items-center justify-start w-full space-x-9">
+                <div className="flex items-center justify-start w-full space-x-9">
                   <p
                     className="text-yellow-300"
                     style={{
